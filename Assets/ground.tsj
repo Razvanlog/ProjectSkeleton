@@ -1,0 +1,14 @@
+{
+  "name": "ground",
+  "tilecount": 1,
+  "tilewidth": 92,
+  "tileheight": 92,
+  "tiles": [
+    {
+      "id": 0,
+      "image": "ground.jpg",
+      "imageheight": 92,
+      "imagewidth": 92
+    }
+  ]
+}

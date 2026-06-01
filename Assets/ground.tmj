@@ -1,0 +1,24 @@
+{
+  "height": 40,
+  "width": 40,
+  "tileheight": 92,
+  "tilewidth": 92,
+  "tilesets": [
+    { "firstgid": 1, "source": "ground.tsj" }
+  ],
+  "layers": [
+    {
+      "name": "Tile Layer 1",
+      "type": "tilelayer",
+      "height": 5,
+      "width": 5,
+      "data": [
+        1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1
+      ]
+    }
+  ]
+}
