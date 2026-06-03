@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
-using TheAdventure.Entities.Objects.Goal;
 using TheAdventure.Input.InputKey;
 
 namespace TheAdventure.Entities.Player
@@ -233,10 +232,6 @@ namespace TheAdventure.Entities.Player
 
         public override bool interacts(Entity another)
         {
-            if (another is Goal goaly)
-            {
-                return goaly.interacts(this);
-            }
             return false;
         }
     }

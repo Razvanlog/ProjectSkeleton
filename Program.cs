@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Text.Json;
 using TheAdventure.Entities.Enemies;
 using TheAdventure.Entities.Gun.Projectile;
-using TheAdventure.Entities.Objects.Goal;
 using TheAdventure.Entities.Player;
 using TheAdventure.Entities.Wall;
 using TheAdventure.EntityManager;
