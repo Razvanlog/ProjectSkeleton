@@ -3,8 +3,7 @@
 You are the Doom guy. You have been teleported to the deepest layer of hell and many demons are on route to your location.
 You are equiped with a shotgun and a pistol and you can survive 5 demons hits. When a demon touches you it counts as a hit.
 
-Inline-style:
-![alt text](https://github.com/Razvanlog/ProjectSkeleton/readmeData/gif.gif "Logo Title Text 1")
+![alt text here](https://github.com/Razvanlog/ProjectSkeleton/blob/main/readmeData/gif.gif)
 
 # Controls
 
@@ -23,3 +22,7 @@ Left click - shoot current weapon
 # Ai Summary
 
 For this project, I only used ai for debugging to discover issues in my logic for handling when to draw the walk, shoot and death animations for the player character and for adapting the program to use the GameLogic, Camera and GameRenderer.
+
+# Build Instructions
+
+dotnet run
