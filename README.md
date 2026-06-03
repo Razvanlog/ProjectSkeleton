@@ -22,3 +22,7 @@ Left click - shoot current weapon
 # Ai Summary
 
 For this project, I only used ai for debugging to discover issues in my logic for handling when to draw the walk, shoot and death animations for the player character and for adapting the program to use the GameLogic, Camera and GameRenderer.
+
+# Build Instructions
+
+dotnet run
