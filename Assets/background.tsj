@@ -1,15 +1,9 @@
 {
   "name": "ground",
   "tilecount": 1,
-  "tilewidth": 622,
-  "tileheight": 384,
+  "tilewidth": 512,
+  "tileheight": 512,
   "tiles": [
-    {
-      "id": 0,
-      "image": "hellFloor.jpg",
-      "imageheight": 622,
-      "imagewidth": 384
-    },
     {
       "id": 1,
       "image": "lava.png",

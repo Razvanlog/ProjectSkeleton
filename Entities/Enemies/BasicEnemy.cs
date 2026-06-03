@@ -27,7 +27,22 @@ namespace TheAdventure.Entities.Enemies
             this.H = size;
             this.speed = speed;
             this.player = player;
-            this.textureId = GameRenderer.GameRenderer.LoadTexture(System.IO.Path.Combine("Assets", "enemy.png"), out this.textureInfo);
+            this.timePerFrame = 0.25f;
+            this.textureId = GameRenderer.GameRenderer.LoadTexture(System.IO.Path.Combine("Assets", "demon.png"), out this.textureInfo);
+            walkFrames = new Rectangle<int>[]
+                {
+                    new Rectangle<int>(44, 0, 42, 55),
+                    new Rectangle<int>(258, 0, 42, 55),
+                    new Rectangle<int>(458, 0, 42, 55),
+                    new Rectangle<int>(158, 61, 42, 55)
+                };
+            deathFrames = new Rectangle<int>[]
+            {
+                new Rectangle<int>(133, 263, 42, 55),
+                new Rectangle<int>(186, 263, 42, 55),
+                new Rectangle<int>(305, 270, 42, 55),
+                new Rectangle<int>(366,277, 42, 55),
+            };
         }
 
         override public void Update(float delta)
@@ -39,8 +54,44 @@ namespace TheAdventure.Entities.Enemies
             {
                 damageFlashInd -= delta;
             }
+            if (hp<=0 && !isDying)
+            {
+                isDying = true;
+                currentFrame = 0;
+                frameTimer = 0f;
+            }
+            frameTimer += delta;
             double angle = Math.Atan2(dy, dx);
-
+            if (isDying)
+            {
+                if (deathFrames != null && frameTimer >= timePerFrame && currentFrame < deathFrames.Length - 1)
+                {
+                    currentFrame++;
+                    frameTimer = 0f;
+                }
+                if (deathFrames != null && currentFrame == deathFrames.Length - 1)
+                {
+                    finishedDeathAnimation = true;
+                }
+                return;
+            }
+            if (player!=null)
+            {
+                this.isMoving = true;
+                if (frameTimer >= timePerFrame)
+                {
+                    currentFrame++;
+                    if (walkFrames != null && currentFrame >= walkFrames.Length)
+                    {
+                        currentFrame = 0;
+                    }
+                    frameTimer = 0f;
+                }
+            }
+            else
+            {
+                currentFrame = 0;
+            }
             this.X += (float)(Math.Cos(angle) * speed * delta);
             this.Y += (float)(Math.Sin(angle) * speed * delta);
         }
@@ -51,15 +102,45 @@ namespace TheAdventure.Entities.Enemies
             var screenRect = camera.ToScreenCoordinates(worldRect);
             var srcRect = new Rectangle<int>(0, 0, textureInfo.Width, textureInfo.Height);
             var destrect = new Rectangle<int>((int)screenRect.Origin.X, (int)screenRect.Origin.Y, (int)screenRect.Size.X, (int)screenRect.Size.Y);
-            if (!isDead())
+            //Rectangle<int> srcRect;
+            bool rectAssigned = false;
+            
+            if (isDying && deathFrames != null)
             {
-                byte r=255,g=255, b=255;
-                if (damageFlashInd>0)
+                rectAssigned = true;
+                srcRect = deathFrames[currentFrame];
+            }
+            else if (walkFrames != null)
+            {
+
+                rectAssigned = true;
+                if (isMoving)
+                {
+                    srcRect = walkFrames[currentFrame];
+                }
+                else
+                {
+                    srcRect = walkFrames[0];
+                }
+            }
+            else
+                srcRect = screenRect;
+            var destRect = new Rectangle<int>((int)screenRect.Origin.X, (int)screenRect.Origin.Y, (int)screenRect.Size.X, (int)screenRect.Size.Y);
+            int angle = 0;
+            if (rectAssigned)
+            {
+                byte r = 255, g = 255, b = 255;
+                if (damageFlashInd > 0)
                 {
                     g = 0;
-                    b=0;
+                    b = 0;
                 }
-                GameRenderer.GameRenderer.DrawTexture(textureId, srcRect, destrect, 0,r,g,b);
+                var flip = RendererFlip.None;
+                if (Math.Abs(angle * (180.0 / Math.PI)) > 90)
+                {
+                    flip = RendererFlip.Vertical;
+                }
+                GameRenderer.GameRenderer.DrawTexture(textureId, srcRect, destRect, angle, r, g, b, flip);
             }
         }
 

@@ -62,7 +62,7 @@ namespace TheAdventure.GameRenderer
             }
         }
 
-        public static void DrawTexture(int textureId, Rectangle<int> src, Rectangle<int> dst, double angleRadians=0, byte r=255, byte g=255, byte b=255)
+        public static void DrawTexture(int textureId, Rectangle<int> src, Rectangle<int> dst, double angleRadians=0, byte r=255, byte g=255, byte b=255, RendererFlip flip = RendererFlip.None)
         {
             if (instance!=null && instance.texturePointers.TryGetValue(textureId, out var textPtr))
             {
@@ -77,7 +77,7 @@ namespace TheAdventure.GameRenderer
                         ref dst,
                         angleDegrees,
                         null,
-                        RendererFlip.None
+                        flip
                         );
                 }
             }

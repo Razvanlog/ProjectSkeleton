@@ -33,10 +33,10 @@ namespace TheAdventure.GameLogic
         {
             this.Camera = Camera;
             Player = new Player(10, 10, 30, 300);
-            var wall0 = new Wall(0, 0, 1000, 10);
-            var wall1 = new Wall(0, 0, 10, 1000);
-            var wall2 = new Wall(1000, 0, 10, 1000);
-            var wall3 = new Wall(0, 1000, 1010, 10);
+            var wall0 = new Wall(0, 0, TheAdventure.Program.arenaHeight, 10);
+            var wall1 = new Wall(0, 0, 10, TheAdventure.Program.arenaWidth);
+            var wall2 = new Wall(TheAdventure.Program.arenaHeight, 0, 10, TheAdventure.Program.arenaWidth);
+            var wall3 = new Wall(0, TheAdventure.Program.arenaHeight, TheAdventure.Program.arenaHeight+10, 10);
             EntityManager.add(Player);
             EntityManager.add(new BasicEnemy(150, 150, 50, 50, Player));
             EntityManager.add(wall0);
@@ -64,6 +64,7 @@ namespace TheAdventure.GameLogic
 
                     if (piece.Id.HasValue)
                     {
+                        Console.Write(piece.Id.Value);
                         tileIdMap.Add(piece.Id.Value, piece);
                     }
                 }
@@ -129,6 +130,7 @@ namespace TheAdventure.GameLogic
                 {
                     return;
                 }
+                var outsideTile = tileIdMap.TryGetValue(1, out var t) ? t : currentTile;
                 if (Camera == null)
                 {
                     return;
@@ -153,6 +155,19 @@ namespace TheAdventure.GameLogic
                 {
                     for (int j = startGridY; j < endGridY; j++)
                     {
+                        int worldX = i * tileWidth;
+                        int worldY = j * tileHeight;
+
+                        Tile tile;
+
+                        if (worldX>=0 && worldX<TheAdventure.Program.arenaWidth && worldY>=0 && worldY<TheAdventure.Program.arenaHeight)
+                        {
+                            tile = currentTile;
+                        }
+                        else
+                        {
+                            tile = outsideTile;
+                        }
                         var worldRect = new Silk.NET.Maths.Rectangle<int>(i * tileWidth, j * tileHeight, tileWidth, tileHeight);
 
                         var screenRect = Camera.ToScreenCoordinates(worldRect);
@@ -165,7 +180,7 @@ namespace TheAdventure.GameLogic
                             (int)screenRect.Size.Y
                             );
 
-                        renderer.RenderTexture(currentTile.TextureId, sourceRect, destRect);
+                        renderer.RenderTexture(tile.TextureId, sourceRect, destRect);
                     }
                 }
             }

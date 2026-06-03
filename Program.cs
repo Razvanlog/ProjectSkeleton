@@ -19,10 +19,10 @@ public static class Program
     public static bool winner = false;
     public static bool lose = false;
     private static readonly TheAdventure.Camera.Camera camera = new();
-    public static int cameraWidth = 800;
-    public static int cameraHeight = 600;
-    public static int arenaWidth = 1000;
-    public static int arenaHeight = 1000;
+    public static int cameraWidth = 1200;
+    public static int cameraHeight = 1200;
+    public static int arenaWidth = 1230;
+    public static int arenaHeight = 1230;
     public static int score = 0;
     private static readonly Dictionary<string, Tile> loadedTiles = new();
     private static readonly Dictionary<int, Tile> tileIdMap = new();
@@ -48,21 +48,26 @@ public static class Program
         gameLogic.InitGame(camera);
 
         bool quit = false;
-
+        bool acknowledgeDeath = false;
         while (!quit)
         {
             gameRenderer.Render();
             quit = inputLogic.ProcessInput();
-            if (EntityManager.EntityManager.Instance != null)
+            if (!acknowledgeDeath && EntityManager.EntityManager.Instance != null && !EntityManager.EntityManager.Instance.PlayerIsAlive())
             {
-                quit = quit || !EntityManager.EntityManager.Instance.PlayerIsAlive();
+                acknowledgeDeath = true;
+                Console.WriteLine("Congratulations!! Score: " + score);
             }
+
+            //if (EntityManager.EntityManager.Instance != null)
+            //{
+            //    quit = quit || !EntityManager.EntityManager.Instance.PlayerIsAlive();
+            //}
             if (quit)
             {
                 break;
             }
         }
-        Console.WriteLine("Congratulations!! Score: " +score);
         gameWindow.Destroy();
         sdl.Quit();
     }

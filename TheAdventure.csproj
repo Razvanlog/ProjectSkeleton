@@ -14,7 +14,7 @@
       <PackageReference Include="Silk.NET.SDL" Version="2.23.0" />
       <PackageReference Include="Silk.NET.Windowing.Sdl" Version="2.23.0" />
       <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
-		<Content Include ="Assets\**\*">
+		<Content Include="Assets\**\*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
     </ItemGroup>
